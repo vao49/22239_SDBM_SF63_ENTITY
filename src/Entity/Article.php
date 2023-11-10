@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ArticleRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
@@ -34,6 +36,14 @@ class Article
 
     #[ORM\ManyToOne(inversedBy: 'articles')]
     private ?Typebiere $idType = null;
+
+    #[ORM\OneToMany(mappedBy: 'idArticle', targetEntity: Vendre::class)]
+    private Collection $vendres;
+
+    public function __construct()
+    {
+        $this->vendres = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -120,6 +130,36 @@ class Article
     public function setIdType(?Typebiere $idType): static
     {
         $this->idType = $idType;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Vendre>
+     */
+    public function getVendres(): Collection
+    {
+        return $this->vendres;
+    }
+
+    public function addVendre(Vendre $vendre): static
+    {
+        if (!$this->vendres->contains($vendre)) {
+            $this->vendres->add($vendre);
+            $vendre->setIdArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVendre(Vendre $vendre): static
+    {
+        if ($this->vendres->removeElement($vendre)) {
+            // set the owning side to null (unless already changed)
+            if ($vendre->getIdArticle() === $this) {
+                $vendre->setIdArticle(null);
+            }
+        }
 
         return $this;
     }
