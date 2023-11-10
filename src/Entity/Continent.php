@@ -11,24 +11,24 @@ class Continent
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $ID_CONTINENT = null;
+    private ?int $id = null;
 
     #[ORM\Column(length: 25)]
-    private ?string $NOM_CONTINENT = null;
+    private ?string $nomContinent = null;
 
-    public function getID_CONTINENT(): ?int
+    public function getId(): ?int
     {
-        return $this->ID_CONTINENT;
+        return $this->id;
     }
 
-    public function getNOMCONTINENT(): ?string
+    public function getNomContinent(): ?string
     {
-        return $this->NOM_CONTINENT;
+        return $this->nomContinent;
     }
 
-    public function setNOMCONTINENT(string $NOM_CONTINENT): static
+    public function setNomContinent(string $nomContinent): static
     {
-        $this->NOM_CONTINENT = $NOM_CONTINENT;
+        $this->nomContinent = $nomContinent;
 
         return $this;
     }
